@@ -22,9 +22,10 @@ class Vehicle(models.Model):
                             default=uuid.uuid4,
                             editable=False,
                             db_index=True, blank=False, null=False)
-    custom_properties = models.CharField(max_length=100)
-    accelerometer_threshold_warning_factor = models.CharField(max_length=100)
-    minor = models.IntegerField()
+    custom_properties = models.CharField(max_length=100, null=True, blank=True)
+    accelerometer_threshold_warning_factor = models.CharField\
+        (max_length=100, null=True, blank=True)
+    minor = models.IntegerField(null=True, blank=True)
     product_id = models.IntegerField()
     parameter_version_on_device = models.IntegerField()
     wifi_hotspot_limits = models.CharField(max_length=100)

@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 import dj_database_url
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -136,3 +137,14 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_TIME_LIMIT = 30
+CELERY_BEAT_SCHEDULE = {
+    "populate_vehicles": {
+        "task": "reports.tasks.populate_vehicles",
+        "schedule": crontab(minute="*/1"),
+    },
+    "debug_task": {
+        "task": "moove.celery.debug_task",
+        "schedule": crontab(minute="*/1"),
+    }
+}
