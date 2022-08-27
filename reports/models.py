@@ -1,7 +1,4 @@
 import uuid as uuid
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from picklefield import PickledObjectField
 
 from django.db import models
 
@@ -41,7 +38,7 @@ class Vehicle(models.Model):
     disable_sleeper_berth = models.BooleanField()
     is_passenger_seatbelt_warning_on = models.BooleanField()
     enable_speed_warning = models.BooleanField()
-    id = models.CharField(max_length=100)
+    _id = models.CharField(max_length=100)
     gps_off_delay = models.IntegerField()
     engine_type = models.CharField(max_length=100)
     device_plans = models.CharField(max_length=100)
@@ -126,7 +123,7 @@ class Groups(models.Model):
                             default=uuid.uuid4,
                             editable=False,
                             db_index=True, blank=False, null=False)
-    id = models.CharField(max_length=100)
+    _id = models.CharField(max_length=100)
     result_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
 
 
@@ -138,7 +135,7 @@ class WorkTime(models.Model):
                             default=uuid.uuid4,
                             editable=False,
                             db_index=True, blank=False, null=False)
-    id = models.CharField(max_length=100)
+    _id = models.CharField(max_length=100)
     result_id = models.OneToOneField(Vehicle, on_delete=models.CASCADE)
 
 
@@ -177,8 +174,3 @@ class CustomParameters(models.Model):
     bytes = models.CharField(max_length=100)
     is_enabled = models.BooleanField()
     result_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-
-
-
-
-
