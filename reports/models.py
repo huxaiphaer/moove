@@ -30,7 +30,7 @@ class Trips(models.Model):
     idling_duration = models.CharField(max_length=100, null=True, blank=True)
     after_hours_distance = models.CharField(
         max_length=100, null=True, blank=True)
-    start = models.CharField(max_length=100, null=True, blank=True)
+    start = models.DateTimeField(max_length=100, null=True, blank=True)
     speed_range2 = models.CharField(max_length=100, null=True, blank=True)
     speed_range3 = models.CharField(max_length=100, null=True, blank=True)
     engine_hours = models.CharField(max_length=100, null=True, blank=True)
@@ -41,8 +41,9 @@ class Trips(models.Model):
         max_length=100,null=True, blank=True)
     speed_range3_duration = models.CharField(
         max_length=100, null=True, blank=True)
-    next_trip_start = models.CharField(max_length=100, null=True, blank=True)
-    stop = models.CharField(max_length=100, null=True, blank=True)
+    next_trip_start = models.DateTimeField(
+        max_length=100, null=True, blank=True)
+    stop = models.DateTimeField(max_length=100, null=True, blank=True)
     after_hours_driving_duration = models.CharField(
         max_length=100, null=True, blank=True)
     work_driving_duration = models.CharField(
@@ -78,8 +79,8 @@ class Exceptions(models.Model):
                             editable=False,
                             db_index=True, blank=False, null=False)
     distance = models.CharField(max_length=100, blank=False, null=False)
-    active_to = models.CharField(max_length=100, blank=False, null=False)
-    active_from = models.CharField(max_length=100, blank=False, null=False)
+    active_to = models.DateTimeField(max_length=100, blank=False, null=False)
+    active_from = models.DateTimeField(max_length=100, blank=False, null=False)
     version = models.CharField(max_length=100, blank=False, null=False)
     duration = models.CharField(max_length=100, blank=False, null=False)
     last_modified_datetime = models.CharField(

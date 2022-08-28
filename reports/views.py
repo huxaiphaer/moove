@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics, response, status
 
+from reports.models import Trips
+
 
 #
 #
@@ -20,7 +22,10 @@ class ReportView(generics.ListCreateAPIView):
     """Report View."""
 
     def create(self, request, *args, **kwargs):
-        print("re ", request.data)
+        trips = Trips.objects.filter(
+            start='2022-08-14',
+            stop='2022-08-22')
+        print('trips ', trips)
         return response.Response({},
                                  status=status.HTTP_400_BAD_REQUEST)
 
