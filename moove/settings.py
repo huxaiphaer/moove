@@ -42,8 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
-    # apps
+    # django apps.
+    'django_inlinecss',
+    'django_extensions',
+    'crispy_forms',
+
+
+    # apps.
     'reports',
 ]
 
@@ -58,6 +65,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'moove.urls'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 TEMPLATES = [
     {
