@@ -1,32 +1,17 @@
-"""Command for vehicle"""
+"""Command for trips."""
 import requests
 from django.core.management.base import BaseCommand
 
 from reports.models import Trips, BaseTable, Driver, StopPoint, Device
+from reports.utils import URL, EXCEPTIONS_BODY
 
 
 class Command(BaseCommand):
     help = 'Populate trips in the tables'
 
     def handle(self, *args, **options):
-        URL = "https://my.geotab.com/apiv1"
-        body = {
-            "method": "Get",
-            "params": {
-                "typeName": "Trip",
-                "credentials": {
-                    "database": "moove",
-                    "sessionId": "2nR_L-I6A8F0K5DVF8srFQ",
-                    "userName": "moovechallengeuser@mooveconnected.com"
-                },
-                # TODO : Make an auto 30 days check.
-                "search": {
-                    "fromDate": "2022-08-14T22:00:00.000Z",
-                    "toDate": "2022-08-22T22:00:00.000Z"
-                }
-            }
-        }
-        r = requests.post(url=URL, json=body)
+
+        r = requests.post(url=URL, json=EXCEPTIONS_BODY)
 
         # extracting data in json format
         output = r.json()
@@ -72,4 +57,6 @@ class Command(BaseCommand):
                 y=result['stopPoint']['y'],
                 trip_id=trip)
             Device.objects.create(
-                _id=result['device']['id'], trip_id=trip)
+                _id=result['device']['id'], trip_id=trip, exceptions_id=None)
+
+        print('Trips added successfully.')

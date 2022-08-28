@@ -2,8 +2,6 @@ import uuid as uuid
 
 from django.db import models
 
-from django.db import models
-
 
 class BaseTable(models.Model):
     uuid = models.UUIDField(unique=True, max_length=500,
@@ -74,10 +72,49 @@ class StopPoint(models.Model):
     trip_id = models.OneToOneField(Trips, on_delete=models.CASCADE)
 
 
+class Exceptions(models.Model):
+    uuid = models.UUIDField(unique=True, max_length=500,
+                            default=uuid.uuid4,
+                            editable=False,
+                            db_index=True, blank=False, null=False)
+    distance = models.CharField(max_length=100, blank=False, null=False)
+    active_to = models.CharField(max_length=100, blank=False, null=False)
+    active_from = models.CharField(max_length=100, blank=False, null=False)
+    version = models.CharField(max_length=100, blank=False, null=False)
+    duration = models.CharField(max_length=100, blank=False, null=False)
+    last_modified_datetime = models.CharField(
+        max_length=100, blank=False, null=False)
+    driver = models.CharField(max_length=100, blank=False, null=False)
+    state = models.CharField(max_length=100, blank=False, null=False)
+    _id = models.CharField(max_length=100, blank=False, null=False)
+    base_table_id = models.ForeignKey(BaseTable, on_delete=models.CASCADE)
+
+
+class Rule(models.Model):
+    uuid = models.UUIDField(unique=True, max_length=500,
+                            default=uuid.uuid4,
+                            editable=False,
+                            db_index=True, blank=False, null=False)
+    _id = models.CharField(max_length=100)
+    exceptions_id = models.OneToOneField(Exceptions, on_delete=models.CASCADE)
+
+
+class Diagnostic(models.Model):
+    uuid = models.UUIDField(unique=True, max_length=500,
+                            default=uuid.uuid4,
+                            editable=False,
+                            db_index=True, blank=False, null=False)
+    _id = models.CharField(max_length=100, blank=False, null=False)
+    exceptions_id = models.OneToOneField(Exceptions, on_delete=models.CASCADE)
+
+
 class Device(models.Model):
     uuid = models.UUIDField(unique=True, max_length=500,
                             default=uuid.uuid4,
                             editable=False,
                             db_index=True, blank=False, null=False)
     _id = models.CharField(max_length=100, null=True, blank=True)
-    trip_id = models.OneToOneField(Trips, on_delete=models.CASCADE)
+    trip_id = models.OneToOneField(
+        Trips, on_delete=models.CASCADE, null=True, blank=True)
+    exceptions_id = models.OneToOneField(
+        Exceptions, on_delete=models.CASCADE, null=True, blank=True)
