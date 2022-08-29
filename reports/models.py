@@ -16,7 +16,7 @@ class Vehicle(models.Model):
                             default=uuid.uuid4,
                             editable=False,
                             db_index=True, blank=False, null=False)
-    _id = models.CharField(max_length=100, blank=True, null=True)
+    geo_tab_id = models.CharField(max_length=100, blank=True, null=True)
     license_plate = models.CharField(max_length=100, null=True, blank=True)
     base_table_id = models.ForeignKey(BaseTable, on_delete=models.CASCADE)
 
@@ -69,7 +69,7 @@ class Driver(models.Model):
                             editable=False,
                             db_index=True, blank=False, null=False)
     is_driver = models.BooleanField(default=False)
-    _id = models.CharField(max_length=100, null=True, blank=True)
+    geo_tab_id = models.CharField(max_length=100, null=True, blank=True)
     trip_id = models.OneToOneField(Trips, on_delete=models.CASCADE)
 
 
@@ -124,7 +124,7 @@ class Device(models.Model):
                             default=uuid.uuid4,
                             editable=False,
                             db_index=True, blank=False, null=False)
-    _id = models.CharField(max_length=100, null=True, blank=True)
+    geo_tab_id = models.CharField(max_length=100, null=True, blank=True)
     trip_id = models.OneToOneField(
         Trips, on_delete=models.CASCADE, null=True, blank=True)
     exceptions_id = models.OneToOneField(
