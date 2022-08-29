@@ -1,13 +1,31 @@
 from rest_framework import generics, response, status
 
-from reports.models import Trips
+from reports.models import Trips, Vehicle, Exceptions
 import dateutil.parser
 
+from reports.serializers import VehicleSerializer, TripsSerializer
 from reports.utils import generate_excel_file
 
 
-class ReportView(generics.ListCreateAPIView):
+class VehicleView(generics.ListAPIView):
+    """List all vehicles."""
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
 
+
+class TripView(generics.ListAPIView):
+    """List all Trips."""
+    queryset = Trips.objects.all()
+    serializer_class = TripsSerializer
+
+
+class ExceptionsView(generics.ListAPIView):
+    """List all Exceptions."""
+    queryset = Exceptions.objects.all()
+    serializer_class = TripsSerializer
+
+
+class ReportView(generics.ListCreateAPIView):
     """Report View."""
 
     def create(self, request, *args, **kwargs):
@@ -26,4 +44,3 @@ class ReportView(generics.ListCreateAPIView):
         except Exception as e:
             return response.Response({'message': f'{e}'},
                                      status=status.HTTP_201_CREATED)
-
