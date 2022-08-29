@@ -11,6 +11,16 @@ class BaseTable(models.Model):
     jsonrpc = models.CharField(max_length=100)
 
 
+class Vehicle(models.Model):
+    uuid = models.UUIDField(unique=True, max_length=500,
+                            default=uuid.uuid4,
+                            editable=False,
+                            db_index=True, blank=False, null=False)
+    geo_tab_id = models.CharField(max_length=100, blank=True, null=True)
+    license_plate = models.CharField(max_length=100, null=True, blank=True)
+    base_table_id = models.ForeignKey(BaseTable, on_delete=models.CASCADE)
+
+
 class Trips(models.Model):
     uuid = models.UUIDField(unique=True, max_length=500,
                             default=uuid.uuid4,
@@ -30,7 +40,7 @@ class Trips(models.Model):
     idling_duration = models.CharField(max_length=100, null=True, blank=True)
     after_hours_distance = models.CharField(
         max_length=100, null=True, blank=True)
-    start = models.CharField(max_length=100, null=True, blank=True)
+    start = models.DateTimeField(max_length=100, null=True, blank=True)
     speed_range2 = models.CharField(max_length=100, null=True, blank=True)
     speed_range3 = models.CharField(max_length=100, null=True, blank=True)
     engine_hours = models.CharField(max_length=100, null=True, blank=True)
@@ -38,11 +48,12 @@ class Trips(models.Model):
     stop_duration = models.CharField(max_length=100, null=True, blank=True)
     is_seat_belt_off = models.BooleanField(default=False)
     speed_range2_duration = models.CharField(
-        max_length=100,null=True, blank=True)
+        max_length=100, null=True, blank=True)
     speed_range3_duration = models.CharField(
         max_length=100, null=True, blank=True)
-    next_trip_start = models.CharField(max_length=100, null=True, blank=True)
-    stop = models.CharField(max_length=100, null=True, blank=True)
+    next_trip_start = models.DateTimeField(
+        max_length=100, null=True, blank=True)
+    stop = models.DateTimeField(max_length=100, null=True, blank=True)
     after_hours_driving_duration = models.CharField(
         max_length=100, null=True, blank=True)
     work_driving_duration = models.CharField(
@@ -58,7 +69,7 @@ class Driver(models.Model):
                             editable=False,
                             db_index=True, blank=False, null=False)
     is_driver = models.BooleanField(default=False)
-    _id = models.CharField(max_length=100, null=True, blank=True)
+    geo_tab_id = models.CharField(max_length=100, null=True, blank=True)
     trip_id = models.OneToOneField(Trips, on_delete=models.CASCADE)
 
 
@@ -78,8 +89,8 @@ class Exceptions(models.Model):
                             editable=False,
                             db_index=True, blank=False, null=False)
     distance = models.CharField(max_length=100, blank=False, null=False)
-    active_to = models.CharField(max_length=100, blank=False, null=False)
-    active_from = models.CharField(max_length=100, blank=False, null=False)
+    active_to = models.DateTimeField(max_length=100, blank=False, null=False)
+    active_from = models.DateTimeField(max_length=100, blank=False, null=False)
     version = models.CharField(max_length=100, blank=False, null=False)
     duration = models.CharField(max_length=100, blank=False, null=False)
     last_modified_datetime = models.CharField(
@@ -113,7 +124,7 @@ class Device(models.Model):
                             default=uuid.uuid4,
                             editable=False,
                             db_index=True, blank=False, null=False)
-    _id = models.CharField(max_length=100, null=True, blank=True)
+    geo_tab_id = models.CharField(max_length=100, null=True, blank=True)
     trip_id = models.OneToOneField(
         Trips, on_delete=models.CASCADE, null=True, blank=True)
     exceptions_id = models.OneToOneField(

@@ -1,0 +1,17 @@
+{% load inlinecss %}
+
+{% inlinecss 'css/template.css' %}
+
+<html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Moove</title>
+    </head>
+    <body>
+      <div class="body">
+        {% block body %}{% endblock %}
+      </div>
+    </body>
+  </html>
+
+{% endinlinecss %}
