@@ -33,3 +33,18 @@ TRIPS_BODY = {
         }
     }
 }
+
+VEHICLE_BODY = {
+    "method": "Get",
+    "params": {
+        "typeName": "Device",
+        "credentials": {
+            "database": "moove",
+            "sessionId": "2nR_L-I6A8F0K5DVF8srFQ",
+            "userName": "moovechallengeuser@mooveconnected.com"
+        }
+    }
+}
+
+HARSH_ACCELERATION = 'apUro_0nXOUmLV4SVlzK8Xw'
+SPEEDING = 'abHSbCv2PKUWKSSGJMoiBnQ'

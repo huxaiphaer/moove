@@ -11,6 +11,16 @@ class BaseTable(models.Model):
     jsonrpc = models.CharField(max_length=100)
 
 
+class Vehicle(models.Model):
+    uuid = models.UUIDField(unique=True, max_length=500,
+                            default=uuid.uuid4,
+                            editable=False,
+                            db_index=True, blank=False, null=False)
+    _id = models.CharField(max_length=100, blank=True, null=True)
+    license_plate = models.CharField(max_length=100, null=True, blank=True)
+    base_table_id = models.ForeignKey(BaseTable, on_delete=models.CASCADE)
+
+
 class Trips(models.Model):
     uuid = models.UUIDField(unique=True, max_length=500,
                             default=uuid.uuid4,
@@ -38,7 +48,7 @@ class Trips(models.Model):
     stop_duration = models.CharField(max_length=100, null=True, blank=True)
     is_seat_belt_off = models.BooleanField(default=False)
     speed_range2_duration = models.CharField(
-        max_length=100,null=True, blank=True)
+        max_length=100, null=True, blank=True)
     speed_range3_duration = models.CharField(
         max_length=100, null=True, blank=True)
     next_trip_start = models.DateTimeField(
