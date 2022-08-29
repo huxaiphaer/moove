@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+from distutils.util import strtobool
 from pathlib import Path
 
 import dj_database_url
@@ -150,9 +151,10 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_TIME_LIMIT = 30
 
 
-if DEBUG:
+if strtobool(DEBUG):
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
+    print('am here --')
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
     EMAIL_HOST = 'smtp.gmail.com'

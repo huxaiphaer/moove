@@ -6,7 +6,6 @@ from django.utils import timezone
 from openpyxl.styles import Alignment, Font, Protection
 from openpyxl.workbook import Workbook
 
-from moove import settings
 from reports.models import Exceptions, Vehicle
 
 URL = "https://my.geotab.com/apiv1"
@@ -68,6 +67,13 @@ def generate_excel_file(email, trips):
     workbook.remove(workbook.active)
     row_num = 1
     worksheet = workbook.create_sheet(title=email, index=1)
+    workbook.security.lockStructure = True
+    worksheet.protection.sheet = True
+    worksheet.protection.formatCells = False
+
+    worksheet.sheet_properties.tabColor = '1072BA'
+    worksheet.freeze_panes = 'I2'
+
     columns = ['License plate', 'Trip Start Date Time', 'Distance Driven(km)',
                'Driving Exception(Speeding) Counts',
                'Driving Exception(HarshAcceleration) Counts']
@@ -89,8 +95,8 @@ def generate_excel_file(email, trips):
         # Define the data for each cell in the row
         row = [
             vehicle.license_plate,
-            trip.start,
-            trip.stop,
+            str(trip.start),
+            str(trip.stop),
             trip.distance,
             Exceptions.objects.filter(
                 device__geo_tab_id=trip.device.geo_tab_id,
@@ -110,7 +116,7 @@ def generate_excel_file(email, trips):
 
     # Send an email.
     message = EmailMessage(
-        f'Trip data as of {now.date().isoformat()}',
+        f'Generate report as of {now.date().isoformat()}',
         f'Generated at: {now.isoformat()}',
         os.getenv('DEFAULT_FROM_EMAIL'),
         [email],

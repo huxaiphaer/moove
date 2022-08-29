@@ -19,7 +19,6 @@ class ReportView(generics.ListCreateAPIView):
             trips = Trips.objects.filter(
                 start__gte=start,
                 stop__gte=stop)
-
             generate_excel_file(request.data.get('email'), trips)
 
             return response.Response({'message': 'Report sent successfully.'},
