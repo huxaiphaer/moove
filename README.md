@@ -64,8 +64,13 @@ $ ./manage.py run_data_vehicles
 What happens for the commands below :
 
 `run_data_trips` - (Populates data for Trips)
+
 `run_data_vehicles` - (Populates data for vehicles)
+
 `run_data_exceptions` - (Populates data for exceptions)
+
+`clear_all_tables`  - (Clear all tables)
+
 
 ## Running with Docker.
 
