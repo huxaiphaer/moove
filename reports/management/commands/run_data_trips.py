@@ -49,9 +49,6 @@ class Command(BaseCommand):
             }
             base_table = BaseTable.objects.create(jsonrpc=output['jsonrpc'])
             trip = Trips.objects.create(**data, base_table_id=base_table)
-            Driver.objects.create(
-                is_driver=result['driver']['isDriver'],
-                _id=result['driver']['id'], trip_id=trip)
             StopPoint.objects.create(
                 x=result['stopPoint']['x'],
                 y=result['stopPoint']['y'],
