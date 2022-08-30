@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     # django apps.
     'django_extensions',
+    'rest_framework',
 
     # apps.
     'reports',
