@@ -3,7 +3,11 @@ from rest_framework import generics, response, status
 from reports.models import Trips, Vehicle, Exceptions
 import dateutil.parser
 
-from reports.serializers import VehicleSerializer, TripsSerializer
+from reports.serializers import (
+    VehicleSerializer,
+    TripsSerializer,
+    ExceptionSerializer
+)
 from reports.utils import generate_excel_file
 
 
@@ -22,7 +26,7 @@ class TripView(generics.ListAPIView):
 class ExceptionsView(generics.ListAPIView):
     """List all Exceptions."""
     queryset = Exceptions.objects.all()
-    serializer_class = TripsSerializer
+    serializer_class = ExceptionSerializer
 
 
 class ReportView(generics.ListCreateAPIView):
