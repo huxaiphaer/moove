@@ -10,7 +10,7 @@ This is a mini report version of Moove.
 4. Docker.
 5. Postgres DB
 
-### Installation on Mac
+### Installation on Mac or linux (Manually)
 
 1 . First clone this repository 
 
@@ -83,12 +83,12 @@ The alternative way of running this project is by using Docker.
 After, installing , then run the following command in the root folder of the 
 project to spin the container.
 
-```python3
-
- $ docker-compose up --build
-
+```
+ $ docker-compose up -d
 ```
 
+Then, the host and the port will be `http://0.0.0.0:8070/`, then use corresponding endpoints in the table 
+below :
 
  #### Endpoints.
 
