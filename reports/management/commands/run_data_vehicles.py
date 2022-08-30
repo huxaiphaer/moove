@@ -19,7 +19,7 @@ class Command(BaseCommand):
         # populate data.
         for result in output['result']:
             data = {
-                "_id": result["id"],
+                "geo_tab_id": result["id"],
                 "license_plate": result["licensePlate"]
             }
             base_table = BaseTable.objects.create(jsonrpc=output['jsonrpc'])

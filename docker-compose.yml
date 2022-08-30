@@ -1,0 +1,80 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - 8070:8070
+
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/moove_one
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_NAME=moove_one
+      - DB_PASSWORD=postgres
+      - DEBUG=False
+      - SECRET_KEY=SECRET_KEY
+      - EMAIL_HOST_USER=huxaiphaeridris@gmail.com
+      - DEFAULT_FROM_EMAIL=huxaiphaeridris@gmail.com
+      - EMAIL_HOST_PASSWORD=lwxopitmflsctkum
+      - BROKER_URL=redis
+      - CELERY_RESULT_BACKEND=redis
+    volumes:
+      - ./:/app
+    command: >
+      sh -c "python3 manage.py migrate &&
+             python3 manage.py clear_all_tables &&
+             python3 manage.py run_data_exceptions &&
+             python3 manage.py run_data_trips &&
+             python3 manage.py run_data_vehicles &&
+             python3 manage.py runserver 0.0.0.0:8070"
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:10-alpine
+    environment:
+      - POSTGRES_DB=moove_one
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_data:/data
+  celery:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - BROKER_URL=redis
+      - CELERY_RESULT_BACKEND=redis
+    command: celery -A app worker -l info
+    volumes:
+      - ./:/app
+    networks:
+      - app-network
+    env_file:
+      - ./.env
+    depends_on:
+      - app
+      - redis
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres:
+  celery:
+  redis_data:

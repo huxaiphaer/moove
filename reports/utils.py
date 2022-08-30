@@ -110,7 +110,7 @@ def generate_excel_file(email, trips):
         for col_num, cell_value in enumerate(row, 1):
             cell = worksheet.cell(row=row_num, column=col_num)
             cell.value = cell_value
-            cell.protection = Protection(locked=True)
+            cell.protection = Protection(locked=False)
     workbook.save(excelfile)
     now = timezone.now()
 

@@ -5,7 +5,7 @@ from django.core.management import call_command
 
 
 @periodic_task(
-    run_every=(crontab(minute='*/1')),
+    run_every=(crontab(minute='*/180')),
     name="populate_vehicles",
     ignore_result=True
 )
