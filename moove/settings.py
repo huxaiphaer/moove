@@ -47,14 +47,13 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     # django apps.
-    'django_inlinecss',
     'django_extensions',
-    'crispy_forms',
-
 
     # apps.
     'reports',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
