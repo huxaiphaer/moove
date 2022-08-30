@@ -57,6 +57,6 @@ class Command(BaseCommand):
                 y=result['stopPoint']['y'],
                 trip_id=trip)
             Device.objects.create(
-                _id=result['device']['id'], trip_id=trip, exceptions_id=None)
+                geo_tab_id=result['device']['id'], trip_id=trip, exceptions_id=None)
 
         print('Trips added successfully.')

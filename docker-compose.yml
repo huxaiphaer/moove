@@ -1,19 +1,29 @@
-version: '3'
+version: '3.7'
 
 services:
   app:
     build:
       context: .
     ports:
-      - "8070:8070"
+      - 8070:8070
+
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@localhost:5432/moove_one
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_NAME=moove_one
+      - DB_PASSWORD=postgres
     volumes:
       - ./:/app
     command: >
       sh -c "python3 manage.py migrate &&
              python3 manage.py run_data_exceptions &&
+             python3 manage.py run_data_trips &&
+             python3 manage.py run_data_vehicles &&
+             python3 manage.py clear_all_tables &&
              python3 manage.py runserver 0.0.0.0:8070"
-    env_file:
-      - ./.env
+    networks:
+      - app-network
     depends_on:
       - postgres
       - redis
@@ -21,32 +31,13 @@ services:
   postgres:
     image: postgres:10-alpine
     environment:
-      POSTGRES_USER: huxy
-      POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
-    env_file:
-      - ./.env
+      - POSTGRES_DB=moove_one
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres:/data/postgres
-    ports:
-      - "5433:5433"
     networks:
-      - postgres
-    restart: unless-stopped
-
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-    ports:
-      - "5050:80"
-    networks:
-      - postgres
+      - app-network
     restart: unless-stopped
 
   redis:
@@ -55,10 +46,12 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    restart: always
+    restart: unless-stopped
     command: celery -A app worker -l info
     volumes:
       - ./:/app
+    networks:
+      - app-network
     env_file:
       - ./.env
     depends_on:
@@ -66,10 +59,9 @@ services:
       - redis
 
 networks:
-  postgres:
+  app-network:
     driver: bridge
 
 volumes:
   postgres:
-  pgadmin:
   celery:

@@ -42,7 +42,7 @@ class Command(BaseCommand):
             Diagnostic.objects.create(
                 _id=diagnostic, exceptions_id=exceptions)
             Device.objects.create(
-                _id=result['device']['id'], trip_id=None,
+                geo_tab_id=result['device']['id'], trip_id=None,
                 exceptions_id=exceptions)
 
         print('Exceptions added successfully.')
