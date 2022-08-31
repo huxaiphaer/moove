@@ -69,6 +69,22 @@ services:
       - app
       - redis
 
+  celery-beat:
+    build:
+      context: ./
+    command: celery -A app beat -l info
+    volumes:
+      - ./:/app
+    environment:
+      - BROKER_URL=redis
+      - CELERY_RESULT_BACKEND=redis
+    networks:
+      - app-network
+    depends_on:
+      - app
+      - redis
+      - celery
+
 networks:
   app-network:
     driver: bridge
@@ -76,4 +92,5 @@ networks:
 volumes:
   postgres:
   celery:
+  celery-beat:
   redis_data:

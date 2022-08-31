@@ -145,8 +145,15 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Celery configuration.
-BROKER_URL = os.getenv('BROKER_URL')
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+CELERY_BEAT_SCHEDULE = {
+    "populate_data": {
+        "task": "reports.tasks.populate_data",
+        "schedule": crontab(minute="*/1"),
+    },
+}
+
 
 if strtobool(DEBUG):
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
