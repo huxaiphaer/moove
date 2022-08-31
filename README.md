@@ -4,77 +4,17 @@ This is a mini report version of Moove.
 
 
 ### Requirements for setting up the project.
+
 1. Python3. 
 2. Django
 3. Virtualenv.
 4. Docker.
 5. Postgres DB
+6. Celery.
 
-### Installation on Mac or linux (Manually)
+### Installation on Mac or linux with Docker
 
-1 . First clone this repository 
-
-```
-$ git clone https://github.com/huxaiphaer/moove.gitt
-```
-
-2 . Add the following variables in your Environment Variables permanently:
-
-```
-DATABASE_URL=postgres://captiq:password@localhost:5432/moove_db
-DEBUG=False
-SECRET_KEY=SECRET_KEY
-EMAIL_HOST_USER=sample@gmail.com
-DEFAULT_FROM_EMAIL=sample@gmail.com
-EMAIL_HOST_PASSWORD=sample
-BROKER_URL=redis://localhost:6379
-CELERY_RESULT_BACKEND=redis://localhost:6379
-
-```
-
-After, setting up the environment variables add create a Postgres Database called `moove_db`,
-followed by running migrations with the commands below to create all the necessary tables
-
-
-3 . Then, create a virtual environment and install in on Mac :
-
-```
-$ virtualenv env
-$ source env/bin/activate
-```
-
-4.  After activating the `virtualenv`, then install the necessary dependencies :
-
-```
-$ pip3 install -r requirements.txt
-```
-
-**NOTE :**
-- The commands below won't run unless  you have your Redis server running and as well
-as setting all the environment variables above.
-
-```
-$ ./manage.py migrate
-$ ./manage.py run_data_exceptions
-$ ./manage.py run_data_trips  
-$ ./manage.py run_data_vehicles 
-
-```
-
-What happens for the commands below :
-
-`run_data_trips` - (Populates data for Trips)
-
-`run_data_vehicles` - (Populates data for vehicles)
-
-`run_data_exceptions` - (Populates data for exceptions)
-
-`clear_all_tables`  - (Clear all tables)
-
-
-## Running with Docker.
-
-The alternative way of running this project is by using Docker.
+Run the project with Docker.
 
 #### Requirements.
 
@@ -100,6 +40,17 @@ below :
 | GET         | api/v1/exceptions/ | Get all exceptions. |
 
 
+**NB :**
+
+For the `api/v1/reports` **POST** endpoint,  the **BODY** is :
+
+```
+{
+    "email": "any_mail",
+    "start_date": "2022-07-14T22:00:00.000Z",
+    "end_date": "2022-07-22T22:00:00.000Z"
+}
+```
 
 ### Contributors 
 
