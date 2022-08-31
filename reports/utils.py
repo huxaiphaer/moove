@@ -67,8 +67,8 @@ def generate_excel_file(email, trips):
     workbook.remove(workbook.active)
     row_num = 1
     worksheet = workbook.create_sheet(title=email, index=1)
-    workbook.security.lockStructure = True
-    worksheet.protection.sheet = True
+    workbook.security.lockStructure = False
+    worksheet.protection.sheet = False
     worksheet.protection.formatCells = False
 
     worksheet.sheet_properties.tabColor = '1072BA'
@@ -110,7 +110,6 @@ def generate_excel_file(email, trips):
         for col_num, cell_value in enumerate(row, 1):
             cell = worksheet.cell(row=row_num, column=col_num)
             cell.value = cell_value
-            cell.protection = Protection(locked=False)
     workbook.save(excelfile)
     now = timezone.now()
 
