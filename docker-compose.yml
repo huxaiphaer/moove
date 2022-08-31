@@ -58,7 +58,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      - BROKER_URL=redis
+      - CELERY_BROKER_URL=redis
       - CELERY_RESULT_BACKEND=redis
     command: celery -A app worker -l info
     volumes:
@@ -76,7 +76,7 @@ services:
     volumes:
       - ./:/app
     environment:
-      - BROKER_URL=redis
+      - CELERY_BROKER_URL=redis
       - CELERY_RESULT_BACKEND=redis
     networks:
       - app-network
